@@ -1,11 +1,12 @@
 name: reduced_mobx
 version: 0.1.0
 description: Implementation of the state management API 'reduced' on top of the state management framework 'MobX'.
-repository: https://github.com/partmaster/reduced
+homepage: https://github.com/partmaster/reduced_mobx
+repository: https://github.com/partmaster/reduced_mobx.git
 publish_to: none
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>=2.19.3 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
