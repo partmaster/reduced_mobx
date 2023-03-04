@@ -6,8 +6,7 @@ import 'props.dart';
 import 'reducer.dart';
 import 'state.dart';
 
-MyHomePageProps transformMyHomePageProps(
-        Reducible<MyAppState> reducible) =>
+MyHomePageProps transformMyHomePageProps(Reducible<MyAppState> reducible) =>
     MyHomePageProps(
       onPressed: CallableAdapter(reducible, Incrementer()),
       title: reducible.state.title,

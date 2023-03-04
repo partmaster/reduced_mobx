@@ -14,8 +14,7 @@ extension _WrapWithConsumer on BuildContext {
     required ReducedWidgetBuilder<P> builder,
   }) =>
       store2<MyAppState, MyHomePageProps, MyCounterWidgetProps>()
-          .wrapWithConsumer(
-              transformer: transformer, builder: builder);
+          .wrapWithConsumer(transformer: transformer, builder: builder);
 }
 
 class MyHomePagePropsConsumer extends StatelessWidget {
