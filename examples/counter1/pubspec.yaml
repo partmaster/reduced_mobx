@@ -1,5 +1,5 @@
 name: counter1
-description: Example app for reduced_mobx with one consumer widget.
+description: Counter demo app implemented with 'reduced' API and 'reduced_mobx' implementation as an example of the usage of the 'reduced_mobx' package.
 publish_to: 'none' 
 version: 0.1.0+1
 
