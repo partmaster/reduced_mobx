@@ -1,7 +1,7 @@
 // main.dart
 
-import 'package:example/setstate_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:reduced_mobx/reduced_mobx.dart';
 import 'logic.dart';
 
 void main() => runApp(const MyApp());
@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
           home: Builder(
-            builder: (context) => wrapWithConsumer(
-              builder: builder,
-            ),
+            builder: (context) => context.store1<int, Props>().wrapWithConsumer(
+                  transformer: transformer,
+                  builder: builder,
+                ),
           ),
         ),
       );
