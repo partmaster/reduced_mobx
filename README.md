@@ -7,26 +7,24 @@
 
 Implementation of the 'reduced' API for the 'mobx' state management framework with following features:
 
-1. Implementation of the ```Reducible``` interface 
-2. Extension on the ```BuildContext``` for convenient access to the  ```Reducible``` instance.
+1. Implementation of the ```ReducedStore``` interface 
+2. Extension on the ```BuildContext``` for convenient access to the  ```ReducedStore``` instance.
 3. Register a state for management.
 4. Trigger a rebuild on widgets selectively after a state change.
 
 ## Features
 
-#### 1. Implementation of the ```Reducible``` interface 
+#### 1. Implementation of the ```ReducedStore``` interface 
 
 ```dart
-class ReducibleStore1<S, P1> = ReducibleStoreBase1<S, P1>
-    with _$ReducibleStore1;
+class ReducedStore1<S, P1> = ReducedStoreBase1<S, P1>
+    with _$ReducedStore1;
 ```
 
 ```dart
-abstract class ReducibleStoreBase1<S, P1> extends Reducible<S> with Store {
-  ReducibleStoreBase1(
-    this.value,
-    this.transformer1,
-  );
+abstract class ReducedStoreBase1<S, P1> extends ReducedStore<S>
+    with Store {
+  ReducedStoreBase1(this.value, this.transformer1);
 
   final ReducedTransformer<S, P1> transformer1;
 
@@ -45,54 +43,73 @@ abstract class ReducibleStoreBase1<S, P1> extends Reducible<S> with Store {
 }
 ```
 
-#### 2. Extension on the ```BuildContext``` for convenient access to the  ```Reducible``` instance.
+#### 2. Extension on the ```BuildContext``` for convenient access to the  ```ReducedStore``` instance.
 
 ```dart
 extension ExtensionStoreOnBuildContext on BuildContext {
-  /// Convenience method for getting a [ReducibleStore1] instance.
-  ReducibleStore1<S, P1> store1<S, P1>() =>
-      InheritedValueWidget.of<ReducibleStore1<S, P1>>(this);
+  ReducedStore1<S, P1> store1<S, P1>() =>
+      InheritedValueWidget.of<ReducedStore1<S, P1>>(this);
 }
 ```
 
 #### 3. Register a state for management.
 
 ```dart
-Widget wrapWithProvider1<S, P1>({
-  required S initialState,
-  required ReducedTransformer<S, P1> transformer1,
-  required Widget child,
-}) =>
-    StatefulInheritedValueWidget(
-      converter: (rawValue) => ReducibleStore1(
-        rawValue,
-        transformer1,
-      ),
-      rawValue: initialState,
-      child: child,
-    );
+class ReducedProvider1<S, P1> extends StatelessWidget {
+  const ReducedProvider1({
+    super.key,
+    required this.initialState,
+    required this.transformer1,
+    required this.child,
+  });
+
+  final S initialState;
+  final ReducedTransformer<S, P1> transformer1;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => StatefulInheritedValueWidget(
+        converter: (rawValue) => ReducedStore1(
+          rawValue,
+          transformer1,
+        ),
+        rawValue: initialState,
+        child: child,
+      );
+}
 ```
 
 #### 4. Trigger a rebuild on widgets selectively after a state change.
 
 ```dart
-extension WrapWithConsumer1<S, P1> on ReducibleStore1<S, P1> {
-  Widget wrapWithConsumer<P>({
-    required ReducedTransformer<S, P> transformer,
-    required ReducedWidgetBuilder<P> builder,
-  }) =>
-      Observer(builder: (_) => builder(props: transformer(this)));
+class ReducedConsumer1<S, P1> extends StatelessWidget {
+  const ReducedConsumer1({
+    super.key,
+    required this.transformer,
+    required this.builder,
+  });
+
+  final ReducedTransformer<S, P1> transformer;
+  final ReducedWidgetBuilder<P1> builder;
+
+  @override
+  Widget build(BuildContext context) =>
+      _build(context.store1<S, P1>());
+
+  Widget _build(ReducedStore1<S, P1> store) => Observer(
+        builder: (_) => builder(props: transformer(store)),
+      );
 }
 ```
 
 ## Getting started
 
-In the pubspec.yaml add dependencies on the package 'reduced' and on the package  'reduced_mobx'.
+In the pubspec.yaml add dependencies on the package 'reduced' and on the package 'reduced_mobx'.
 
 ```
 dependencies:
-  reduced: ^0.1.0
-  reduced_mobx: ^0.1.0
+  reduced: 0.2.1
+  reduced_mobx: 0.2.1
 ```
 
 Import package 'reduced' to implement the logic.
@@ -126,45 +143,32 @@ class Props {
   Props({required this.counterText, required this.onPressed});
   final String counterText;
   final Callable<void> onPressed;
-  @override
-  toString() => counterText;
 }
 
-class PropsTransformer {
-  static Props transform(Reducible<int> reducible) => Props(
-        counterText: '${reducible.state}',
-        onPressed: CallableAdapter(reducible, Incrementer()),
-      );
-}
+Props transformer(ReducedStore<int> store) => Props(
+      counterText: '${store.state}',
+      onPressed: CallableAdapter(store, Incrementer()),
+    );
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.props});
-
-  final Props props;
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('reduced_fluttercommand example'),
+Widget builder({Key? key, required Props props}) => Scaffold(
+      appBar: AppBar(title: const Text('reduced_mobx example')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(props.counterText),
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(props.counterText),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: props.onPressed,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ),
-      );
-}
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: props.onPressed,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
 ```
 
 Finished counter demo app using logic.dart and 'reduced_mobx' package:
@@ -182,17 +186,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) => wrapWithProvider1(
-        transformer1: PropsTransformer.transform,
+  Widget build(BuildContext context) => ReducedProvider1(
         initialState: 0,
+        transformer1: transformer,
         child: MaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
-          home: Builder(
-            builder: (context) =>
-                context.store1<int, Props>().wrapWithConsumer<Props>(
-                      transformer: PropsTransformer.transform,
-                      builder: MyHomePage.new,
-                    ),
+          home: const ReducedConsumer1(
+            transformer: transformer,
+            builder: builder,
           ),
         ),
       );
