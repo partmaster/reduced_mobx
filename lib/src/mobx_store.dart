@@ -28,7 +28,7 @@ abstract class ReducedStoreBase1<S, P1> extends ReducedStore<S> with Store {
 
   @override
   @action
-  reduce(reducer) => value = reducer(value);
+  dispatch(event) => value = event(value);
 
   @computed
   P1 get props1 => transformer1(this);
@@ -53,7 +53,7 @@ abstract class ReducedStoreBase2<S, P1, P2> extends ReducedStore<S> with Store {
 
   @override
   @action
-  reduce(reducer) => value = reducer(value);
+  dispatch(event) => value = event(value);
 
   @computed
   P1 get props1 => transformer1(this);

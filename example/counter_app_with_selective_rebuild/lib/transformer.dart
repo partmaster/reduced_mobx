@@ -3,12 +3,12 @@
 import 'package:reduced/reduced.dart';
 
 import 'props.dart';
-import 'reducer.dart';
+import 'events.dart';
 import 'state.dart';
 
 MyHomePageProps transformMyHomePageProps(ReducedStore<MyAppState> store) =>
     MyHomePageProps(
-      onPressed: CallableAdapter(store, Incrementer()),
+      onPressed: CallableAdapter(store, CounterIncremented()),
       title: store.state.title,
     );
 

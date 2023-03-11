@@ -36,11 +36,11 @@ mixin _$ReducedStore1<S, P1> on ReducedStoreBase1<S, P1>, Store {
       ActionController(name: 'ReducedStoreBase1', context: context);
 
   @override
-  void reduce(Reducer<S> reducer) {
+  void dispatch(Event<S> event) {
     final _$actionInfo = _$ReducedStoreBase1ActionController.startAction(
-        name: 'ReducedStoreBase1.reduce');
+        name: 'ReducedStoreBase1.dispatch');
     try {
-      return super.reduce(reducer);
+      return super.dispatch(event);
     } finally {
       _$ReducedStoreBase1ActionController.endAction(_$actionInfo);
     }
@@ -89,11 +89,11 @@ mixin _$ReducedStore2<S, P1, P2> on ReducedStoreBase2<S, P1, P2>, Store {
       ActionController(name: 'ReducedStoreBase2', context: context);
 
   @override
-  void reduce(Reducer<S> reducer) {
+  void dispatch(Event<S> event) {
     final _$actionInfo = _$ReducedStoreBase2ActionController.startAction(
-        name: 'ReducedStoreBase2.reduce');
+        name: 'ReducedStoreBase2.dispatch');
     try {
-      return super.reduce(reducer);
+      return super.dispatch(event);
     } finally {
       _$ReducedStoreBase2ActionController.endAction(_$actionInfo);
     }

@@ -2,13 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:reduced/reduced.dart';
 import 'package:reduced_mobx/reduced_mobx.dart';
 
-class Incrementer extends Reducer<int> {
+class CounterIncremented extends Event<int> {
   @override
   int call(int state) => state + 1;
 }
 
 void main() {
-  test('ReducibleStore state 0', () {
+  test('ReducedStore state 0', () {
     final objectUnderTest = ReducedStore2(
       0,
       (value) => value,
@@ -17,7 +17,7 @@ void main() {
     expect(objectUnderTest.state, 0);
   });
 
-  test('ReducibleStore state 1', () {
+  test('ReducedStore state 1', () {
     final objectUnderTest = ReducedStore2(
       1,
       (value) => value,
@@ -26,13 +26,13 @@ void main() {
     expect(objectUnderTest.state, 1);
   });
 
-  test('ReducibleStore reduce', () async {
+  test('ReducedStore dispatch', () async {
     final objectUnderTest = ReducedStore2(
       0,
       (value) => value,
       (value) => value,
     );
-    objectUnderTest.reduce(Incrementer());
+    objectUnderTest.dispatch(CounterIncremented());
     expect(objectUnderTest.state, 1);
   });
 }
