@@ -6,7 +6,7 @@ import 'package:reduced_mobx/reduced_mobx.dart';
 
 import 'props.dart';
 import 'state.dart';
-import 'transformer.dart';
+import 'mappers.dart';
 
 typedef _ReducedConsumer<P>
     = ReducedConsumer2<MyAppState, P, MyHomePageProps, MyCounterWidgetProps>;
@@ -21,7 +21,7 @@ class MyHomePagePropsConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _ReducedConsumer(
-        mapper: MyHomePagePropsMapper.new,
+        mapper: MyHomePagePropsMapper.map,
         builder: builder,
       );
 }
@@ -36,7 +36,7 @@ class MyCounterWidgetPropsConsumer extends StatelessWidget {
 
   @override
   Widget build(context) => _ReducedConsumer(
-        mapper: MyCounterWidgetPropsMapper.new,
+        mapper: MyCounterWidgetPropsMapper.map,
         builder: builder,
       );
 }
