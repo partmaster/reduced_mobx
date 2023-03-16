@@ -11,8 +11,8 @@ void main() {
   test('ReducedStore state 0', () {
     final objectUnderTest = ReducedStore2(
       0,
-      (value) => value,
-      (value) => value,
+      (value, processor) => value,
+      (value, processor) => value,
     );
     expect(objectUnderTest.state, 0);
   });
@@ -20,8 +20,8 @@ void main() {
   test('ReducedStore state 1', () {
     final objectUnderTest = ReducedStore2(
       1,
-      (value) => value,
-      (value) => value,
+      (value, processor) => value,
+      (value, processor) => value,
     );
     expect(objectUnderTest.state, 1);
   });
@@ -29,10 +29,10 @@ void main() {
   test('ReducedStore dispatch', () async {
     final objectUnderTest = ReducedStore2(
       0,
-      (value) => value,
-      (value) => value,
+      (value, processor) => value,
+      (value, processor) => value,
     );
-    objectUnderTest.dispatch(CounterIncremented());
+    objectUnderTest.process(CounterIncremented());
     expect(objectUnderTest.state, 1);
   });
 }

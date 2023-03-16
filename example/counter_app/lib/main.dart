@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ReducedProvider1(
         initialState: 0,
-        transformer1: transformer,
+        mapper1: PropsMapper.new,
         child: MaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
           home: const ReducedConsumer1(
-            transformer: transformer,
-            builder: builder,
+            mapper: PropsMapper.new,
+            builder: MyHomePage.new,
           ),
         ),
       );

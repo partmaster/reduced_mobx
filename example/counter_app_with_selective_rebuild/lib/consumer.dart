@@ -17,11 +17,11 @@ class MyHomePagePropsConsumer extends StatelessWidget {
     required this.builder,
   });
 
-  final ReducedWidgetBuilder<MyHomePageProps> builder;
+  final WidgetFromPropsBuilder<MyHomePageProps> builder;
 
   @override
   Widget build(BuildContext context) => _ReducedConsumer(
-        transformer: transformMyHomePageProps,
+        mapper: MyHomePagePropsMapper.new,
         builder: builder,
       );
 }
@@ -32,11 +32,11 @@ class MyCounterWidgetPropsConsumer extends StatelessWidget {
     required this.builder,
   });
 
-  final ReducedWidgetBuilder<MyCounterWidgetProps> builder;
+  final WidgetFromPropsBuilder<MyCounterWidgetProps> builder;
 
   @override
   Widget build(context) => _ReducedConsumer(
-        transformer: transformMyCounterWidgetProps,
+        mapper: MyCounterWidgetPropsMapper.new,
         builder: builder,
       );
 }

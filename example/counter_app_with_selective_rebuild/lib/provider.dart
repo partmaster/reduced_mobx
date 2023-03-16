@@ -13,8 +13,8 @@ class MyAppStateProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ReducedProvider2(
-        transformer1: transformMyHomePageProps,
-        transformer2: transformMyCounterWidgetProps,
+        mapper1: MyHomePagePropsMapper.new,
+        mapper2: MyCounterWidgetPropsMapper.new,
         initialState: MyAppState(title: 'reduced_mobx example'),
         child: child,
       );
